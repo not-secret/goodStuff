@@ -1,0 +1,83 @@
+db
+
+show dbs
+
+use mydb
+
+show collections
+
+
+"Insert data"
+
+user1 = {FName: "Test", LName: "User", Age:30, Gender: "M", Country: "US"}
+user2 = {Name: "Test User", Age:45, Gender: "F", Country: "US"} 
+
+db.users.insert(user1)
+db.users.insert(user2)
+
+
+"View Data"
+
+show collections
+
+db.users.find()
+
+
+"Update the data"
+
+db.users.update({"Gender":"F"},{$set:{"Country":"UK"}})
+
+db.users.find({"Gender":"F"})
+
+
+"Delete the data"
+
+db.users.deleteOne({"Gender":"F"})
+
+db.users.find()
+
+
+"Selector"
+
+db.users.find({'Gender': 'F'})
+
+db.users.find({"Gender":"F",$or:[{"Country":"India"},{"Country":"UK"}]})
+
+db.users.find({"Gender":"F",$and:[{"Country":"UK"}]})
+
+db.users.find({"Gender":"F",$or:[{"Country":"India"},{"Country":"UK"}]}).count()
+
+
+"Projector"
+
+db.users.find({"Gender":"F"}, {"Name":1,"Age":1})
+
+
+"sort function"
+
+db.users.find({"Gender":"F"}, {"Name":1,"Age":1}).sort({"Age":1})
+
+db.users.find({"Gender":"F"}, {"Name":1,"Age":1}).sort({"Age":-1,"Name":1})
+
+
+"limit function"
+
+db.users.find().limit(2)
+
+db.users.find().limit(2).skip(1)
+
+
+"$lt and $lte"
+
+db.users.find({"Age" : {$lt: 45}})
+
+db.users.find({"Age" : {$lte: 45}})
+
+
+"Regular Expression"
+
+db.users.insert({Name:"Student2", Age:30, Gender:"M", Country:"UK"})
+
+db.users.find({"Name":/(St|Te)*/i, "Country":/(U)/i})
+
+db.users.find({"Name":/(Stu)/i, "Country":/(U)/i})
